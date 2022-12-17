@@ -285,8 +285,8 @@
 </span><span><span class="hljs-tag"><span class="highlighted">&lt;/</span><span class="hljs-name">foo</span>&gt;</span>
 </span></code></pre>
         <p><strong><code class="line-numbers hljs inline no-lang" v-pre>highlight-lines</code> attr with line-part syntax should highlight only at specified substring</strong></p>
-        <pre><code class="line-numbers hljs xml" v-pre><span><span class="hljs-tag">&lt;<span class="hljs-name">foo</span>&gt;</span>
-</span><span>  <span class="hljs-tag">&lt;<span class="hljs-name">bar</span> <span class="hljs-attr highlighted">type</span>=<span class="hljs-string">&quot;name&quot;</span>&gt;</span>goo<span class="hljs-tag">&lt;/<span class="hljs-name">bar</span>&gt;</span>
+        <pre><code class="line-numbers hljs xml" v-pre><span><span class="hljs-tag"><span><span class="highlighted"></span>&lt;</span><span class="hljs-name"><span><span class="highlighted"></span>foo</span></span><span><span class="highlighted"></span>&gt;</span></span><span><span class="highlighted"></span>
+</span></span><span>  <span class="hljs-tag">&lt;<span class="hljs-name">bar</span> <span class="hljs-attr highlighted">type</span>=<span class="hljs-string">&quot;name&quot;</span>&gt;</span>goo<span class="hljs-tag">&lt;/<span class="hljs-name">bar</span>&gt;</span>
 </span><span>  <span class="hljs-tag">&lt;<span class="hljs-name highlighted">baz</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;name&quot;</span>&gt;</span>goo<span class="hljs-tag">&lt;/<span class="hljs-name highlighted">baz</span>&gt;</span>
 </span><span>  <span class="hljs-tag">&lt;<span class="hljs-name">qux</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;name&quot;</span>&gt;</span><span class="highlighted">go,o</span><span class="hljs-tag highlighted">&lt;/<span class="hljs-name">qux</span>&gt;</span>
 </span><span>  <span class="hljs-tag">&lt;<span class="hljs-name">quux</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;name&quot;</span>&gt;</span><span class="highlighted">go&#x27;o</span><span class="hljs-tag">&lt;/<span class="hljs-name">quux</span>&gt;</span>
@@ -309,6 +309,35 @@
 </span><span>  <span class="hljs-tag">&lt;<span class="hljs-name">qux</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;name&quot;</span>&gt;</span><span> <span class="highlighted">goo </span></span><span class="hljs-tag highlighted">&lt;/<span class="hljs-name">qux</span>&gt;</span>
 </span><span>  <span class="hljs-tag highlighted">&lt;<span class="hljs-name">quux</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;name&quot;</span>&gt;</span><span><span class="highlighted"> goo</span> </span><span class="hljs-tag">&lt;/<span class="hljs-name">quux</span>&gt;</span>
 </span><span><span class="hljs-tag">&lt;/<span class="hljs-name">foo</span>&gt;</span>
+</span></code></pre>
+        <p><strong><code class="line-numbers hljs inline no-lang" v-pre>highlight-lines</code> combined testing of various highlight markdowns and that multiple highlight rules can be specified on the same line</strong></p>
+        <pre><code class="line-numbers hljs java" v-pre><span class="highlighted"><span class="hljs-keyword">import</span> java.util.List;
+</span><span>
+</span><span><span class="hljs-comment"><span>// <span class="highlighted">Inventory</span><span> <span class="highlighted">is a</span><span> class that stores inventory <span class="highlighted">items</span><span> in a list. Big <span class="highlighted">Inventory</span>.</span></span></span></span></span>
+</span><span><span class="hljs-comment"><span>// <span class="highlighted">It's designed</span><span> as a <span class="highlighted">thin wrapper on the List interface.</span></span></span></span>
+</span><span><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Inventory</span> </span>{
+</span><span class="highlighted">    <span class="hljs-keyword">private</span> List&lt;Item&gt; items;
+</span><span class="highlighted">
+</span><span class="highlighted">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getItemCount</span><span class="hljs-params">()</span></span>{
+</span><span>        <span class="hljs-keyword">return</span> items.size();
+</span><span>    }
+</span><span>
+</span><span class="highlighted">    <span class="hljs-function"><span class="hljs-keyword">public</span> bool <span class="hljs-title">isEmpty</span><span class="hljs-params">()</span> </span>{
+</span><span class="highlighted">        <span class="hljs-keyword">return</span> items.isEmpty();
+</span><span class="highlighted">    }
+</span><span>
+</span><span>    <span class="highlighted"><span class="hljs-function"><span class="hljs-keyword">public</span> Item <span class="hljs-title">getItem</span><span class="hljs-params">(idx: <span class="hljs-keyword">int</span>)</span> </span>{</span>
+</span><span>        <span class="highlighted"><span class="hljs-keyword">return</span> items.get(idx);</span>
+</span><span>    <span class="highlighted">}</span>
+</span><span>
+</span><span>    <span class="hljs-function"><span class="hljs-keyword highlighted">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title highlighted">addItem</span><span class="hljs-params highlighted">(item: Item)</span><span class="highlighted"> </span></span><span><span class="highlighted">{</span>
+</span></span><span>        <span class="hljs-keyword highlighted">return</span><span><span class="highlighted"> items.add(item);</span>
+</span></span><span>    }
+</span><span>
+</span><span>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword highlighted">void</span><span class="highlighted"> </span><span class="hljs-title highlighted">removeItem</span><span class="hljs-params highlighted">(item: Item)</span><span class="highlighted"> </span></span><span><span class="highlighted">{</span>
+</span></span><span>        <span class="highlighted"><span class="hljs-keyword">return</span> items.remove(item);</span>
+</span><span>    <span class="highlighted">}</span>
+</span><span>}
 </span></code></pre>
         <p><strong>Should render correctly with heading</strong></p>
         <div class="code-block">

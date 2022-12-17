@@ -134,6 +134,37 @@ Content in a fenced code block
 </foo>
 ```
 
+**`highlight-lines` combined testing of various highlight markdowns and that multiple highlight rules can be specified on the same line**
+```java {.line-numbers highlight-lines="1[:],3['items'],3['Inventory'],3[2::4],4['It\'s designed'],4[5::8],4[6::11],6[8:18],6[:]-8,8,8[0::2],12[:]-14,16-18,20[::1],20[12:]-21[::2],24[1::]-26"}
+import java.util.List;
+
+// Inventory is a class that stores inventory items in a list. Big Inventory.
+// It's designed as a thin wrapper on the List interface.
+public class Inventory {
+    private List<Item> items;
+
+    public int getItemCount(){
+        return items.size();
+    }
+
+    public bool isEmpty() {
+        return items.isEmpty();
+    }
+
+    public Item getItem(idx: int) {
+        return items.get(idx);
+    }
+
+    public void addItem(item: Item) {
+        return items.add(item);
+    }
+
+    public void removeItem(item: Item) {
+        return items.remove(item);
+    }
+}
+```
+
 **Should render correctly with heading**
 
 ```{heading="A heading"}
