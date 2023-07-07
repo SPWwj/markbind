@@ -19,6 +19,28 @@ const _ = {
   constant: lodashConstant,
 };
 
+import { exec } from 'child_process';
+import path from 'path';
+
+const generateMermaidDiagram = (inputFileName: string, outputFileName: string) => {
+  const currentWorkingDirectory = process.cwd();
+  const inputFilePath = path.join(currentWorkingDirectory, inputFileName);
+  const outputFilePath = path.join(currentWorkingDirectory,outputFileName);
+
+  exec(`npx mmdc -i ${inputFilePath} -o ${outputFilePath}`, (error, stdout, stderr) => {
+    if (error) {
+      console.log(`Error: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.log(`stderr: ${stderr}`);
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+  });
+};
+
+generateMermaidDiagram('input.mmd', 'output.png');
 // markdown-it plugins
 markdownIt.use(createDoubleDelimiterInlineRule('%%', 'dimmed', 'emphasis'))
   .use(createDoubleDelimiterInlineRule('!!', 'underline', 'dimmed'))
@@ -41,6 +63,8 @@ markdownIt.use(require('markdown-it-mark'))
   .use(require('./plugins/markdown-it-center-text'))
   .use(require('./plugins/markdown-it-colour-text'))
   .use(require('./plugins/markdown-it-alt-frontmatter'));
+
+  
 
 // fix table style
 markdownIt.renderer.rules.table_open = _.constant(
@@ -70,11 +94,15 @@ markdownIt.renderer.rules.fence = (tokens: Token[],
                                    idx: number, options: Options, env: any, slf: Renderer) => {
   const token = tokens[idx];
   const lang = token.info || '';
+  console.log("language is :", lang);
+  console.log("token.info is :", token.info);
+  token.attrPush(['class', `language-${lang}`]);
+
   let str = token.content;
   let highlighted = false;
   let lines: string[] = [];
 
-  const startFromRawValue = getAttribute(token, 'start-from', true);
+  const startFromRawValue = getAttribute(token, 'start-from', false);
   const startFromOneBased = startFromRawValue === undefined
     ? 1
     : Math.max(1, parseInt(startFromRawValue, 10) || 1);
@@ -93,7 +121,7 @@ markdownIt.renderer.rules.fence = (tokens: Token[],
     }
   }
 
-  const highlightLinesInput = getAttribute(token, 'highlight-lines', true);
+  const highlightLinesInput = getAttribute(token, 'highlight-lines', false);
   let highlightRules: HighlightRule[] = [];
   if (highlightLinesInput) {
     highlightRules = HighlightRule.parseAllRules(highlightLinesInput, -startFromZeroBased, str);
@@ -175,23 +203,23 @@ markdownIt.renderer.rules.fence = (tokens: Token[],
 };
 
 // highlight inline code
-markdownIt.renderer.rules.code_inline
-    = (tokens: Token[], idx: number, options: Options, env: any, slf: Renderer) => {
-    const token = tokens[idx];
-    const lang = token.attrGet('class');
-    const inlineClass = 'hljs inline';
+// markdownIt.renderer.rules.code_inline
+//     = (tokens: Token[], idx: number, options: Options, env: any, slf: Renderer) => {
+//     const token = tokens[idx];
+//     const lang = token.attrGet('class');
+//     const inlineClass = 'hljs inline';
 
-    if (lang && hljs.getLanguage(lang)) {
-      token.attrSet('class', `${inlineClass} ${lang}`);
-      return `<code${slf.renderAttrs(token)}>${
-        hljs.highlight(token.content, { language: lang, ignoreIllegals: true }).value
-      }</code>`;
-    }
-    token.attrSet('class', `${inlineClass} no-lang`);
-    return `<code${slf.renderAttrs(token)}>${
-      markdownIt.utils.escapeHtml(token.content)
-    }</code>`;
-  };
+//     if (lang && hljs.getLanguage(lang)) {
+//       token.attrSet('class', `${inlineClass} ${lang}`);
+//       return `<code${slf.renderAttrs(token)}>${
+//         hljs.highlight(token.content, { language: lang, ignoreIllegals: true }).value
+//       }</code>`;
+//     }
+//     token.attrSet('class', `${inlineClass} no-lang`);
+//     return `<code${slf.renderAttrs(token)}>${
+//       markdownIt.utils.escapeHtml(token.content)
+//     }</code>`;
+//   };
 
 const fixedNumberEmojiDefs = require('./patches/markdown-it-emoji-fixed');
 markdownIt.use(require('markdown-it-emoji'), {

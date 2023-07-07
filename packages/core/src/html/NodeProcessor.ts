@@ -243,7 +243,8 @@ export class NodeProcessor {
       case 'scroll-top-button':
         this.mdAttributeRenderer.processScrollTopButtonAttributes(node);
         break;
-      case 'code':
+        case 'code':
+          console.log("Code block found", node);
         setCodeLineNumbers(node, this.config.codeLineNumbers);
         // fall through
       case 'annotation': // Annotations are added automatically by KaTeX when rendering math formulae.
