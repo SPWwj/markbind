@@ -4,10 +4,12 @@ import markdownItImport, { Options } from 'markdown-it';
 import lodashConstant from 'lodash/constant';
 import Renderer from 'markdown-it/lib/renderer';
 import Token from 'markdown-it/lib/token';
+import { QrCodeComponent } from './qrCodeComponent';
 
 import * as logger from '../../utils/logger';
 
 import { HighlightRule } from './highlight/HighlightRule';
+import { customTagPlugin } from './customTagPlugin';
 
 const createDoubleDelimiterInlineRule = require('./plugins/markdown-it-double-delimiter');
 
@@ -40,7 +42,13 @@ markdownIt.use(require('markdown-it-mark'))
   .use(require('./plugins/markdown-it-footnotes'))
   .use(require('./plugins/markdown-it-center-text'))
   .use(require('./plugins/markdown-it-colour-text'))
-  .use(require('./plugins/markdown-it-alt-frontmatter'));
+  .use(require('./plugins/markdown-it-alt-frontmatter'))
+  .use(customTagPlugin, {
+    name: 'qrcode',
+    startDelimiter: '[',
+    endDelimiter: ']',
+    component: QrCodeComponent.render,
+  });
 
 // fix table style
 markdownIt.renderer.rules.table_open = _.constant(
